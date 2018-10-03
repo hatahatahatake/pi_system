@@ -1,0 +1,7 @@
+<<<<<<< HEAD
+/home/pi/Desktop/raspi/cap_rasp.py
+composer.phar
+=======
+dataDir/*
+!dataDir/.gitkeep
+>>>>>>> 4754df6897203148f5b52e115050a8a8bc3cf335
