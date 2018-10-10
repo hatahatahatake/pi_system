@@ -6,19 +6,33 @@
 # http で呼び出して画像を撮って保存させる
 # 夜に取得した画像を一日分圧縮してサーバに保存する
 
-from flask import Flask, render_template
+from flask import Flask, send_file, make_response, send_from_directory
+import pandas as pd
+import os
+
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+CORS(app)
 
-@app.route('/hello')
-def index():
-    return 'Hello world'
+# localhostは変更してください
+Host_name = "localhost"
+zip_path = './zipfile/'
 
-@app.route('/hello')
+@app.route("/collect")
+def collect():
 
+    fileList = os.listdir(zip_path)
 
+    now = datetime.now()
+    nowStr = now.strftime("%m%d")
 
+    # ここのPATH指定は，なんとかしてください
+    downloadFile = zip_path + nowStr + ".zip"
+    downloadFileName = nowStr + ".zip"
 
-if __name__ == '__main__':
-    app.debug = False
-    app.run(host='0.0.0.0', port=8080)
+    return send_file(downloadFile, mimetype="application/zip", as_attachment=True, attachment_filename=downloadFileName)
+
+if __name__ == "__main__":
+    print(app.url_map)
+    app.run(host="localhost", port=3000)

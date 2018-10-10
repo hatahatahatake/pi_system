@@ -7,20 +7,42 @@
 import os
 import sys
 import glob
-import shutil
+import requests
+import zipfile
+
+url = 'https://localhost/collect:3000/'
+
+download_path = './pi_zip/'
+save_path = './pi_image/'
 
 def main():
 
-    # zip ファイルを解凍
-    sys.path.append('/Desktop/workspace/pi_server/flask_test')
-    zip_path = './cap_images/' + '/*.zip'
-    zip_file_list = glob.glob(path)
-    print('zip file list:', zip_file_list)
+    while True:
 
+        ## zip ファイルをリクエストしてAPI呼び出す
+        r_zip = requests.get(url, )
 
-    # 保存先をドライブに指定する
+        # application/zip
+        print(r_zip.headers['Content-Type'])
 
+        # 1009.zip
+        filename_zip = os.path.basename(url)
+        print(filename_zip)
 
+        # zipファイルの読み込み
+        with open(download_path + filename_zip, 'r') as f:
+            f.write(r_zip.content)
+            file.readlines()
+
+            return filename_zip
+
+            ## zipファイルの展開・保存
+            files = glob(os.path.join(download_path, '*.zip'))
+
+            # 対象のzipファイルをディレクトリ指定して解凍
+            for file in files:
+                with ZipFile(file) as zf:
+                    zf.extractall(save_path)
 
 if __name__ == "__main__":
     main()
