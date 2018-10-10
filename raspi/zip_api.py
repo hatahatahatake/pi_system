@@ -6,6 +6,7 @@
 # http で呼び出して画像を撮って保存させる
 # 夜に取得した画像を一日分圧縮してサーバに保存する
 
+from flask import Flask, render_template
 from flask import Flask, send_file, make_response, send_from_directory
 import pandas as pd
 import os
