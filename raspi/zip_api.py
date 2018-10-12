@@ -18,7 +18,7 @@ CORS(app)
 
 # localhostは変更してください
 Host_name = "localhost"
-zip_path = './zipfile/'
+zip_path = '/zipfile/'
 
 @app.route("/collect")
 def collect():

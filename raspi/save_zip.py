@@ -12,8 +12,8 @@ import time
 from datetime import datetime
 from time import sleep
 
-data_path = './dataDir'
-zip_path = './zipfile'
+data_path = '/dataDir'
+zip_path = '/zipfile'
 
 if __name__ == '__main__':
 

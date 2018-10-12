@@ -22,8 +22,8 @@ cap.set(4, 800)  # Width
 cap.set(4, 600)  # Heigh
 cap.set(5, 15)   # FPS
 
-data_path = './dataDir/'
-zip_path = './zipfile/'
+data_path = '/dataDir/'
+zip_path = '/zipfile/'
 
 def main():
 

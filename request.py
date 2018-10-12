@@ -12,8 +12,8 @@ import zipfile
 
 url = 'https://localhost/collect:3000/'
 
-download_path = './pi_zip/'
-save_path = './pi_image/'
+download_path = '/pi_zip/'
+save_path = '/pi_image/'
 
 def main():
 
