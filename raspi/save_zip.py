@@ -12,8 +12,8 @@ import time
 from datetime import datetime
 from time import sleep
 
-data_path = '/dataDir'
-zip_path = '/zipfile'
+data_path = '/home/pi/Desktop/pi_system/raspi/dataDir'
+zip_path = '/home/pi/Desktop/pi_system/raspi/zipfile'
 
 if __name__ == '__main__':
 
