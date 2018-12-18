@@ -32,6 +32,7 @@ if __name__ == '__main__':
 
             print("-- create diffdata --")
 
+            # 拡張子なしでファイル名の取得
             filename, ext = os.path.splitext(dataDate)
 
             dataDate = os.path.join(data_path, dataDate)
@@ -44,10 +45,6 @@ if __name__ == '__main__':
 
             # 差分画像を表示
             cv2.imshow('diff Image', dataDate3)
-
-            # 確認用 print
-            #print("diff ok")
-            #print(dataDate3)
 
             # png で保存
             saveDiff = output_path + filename
