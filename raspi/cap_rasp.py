@@ -23,6 +23,7 @@ cap.set(4, 600)  # Heigh
 cap.set(5, 15)   # FPS
 
 data_path = '/home/pi/Desktop/pi_system/raspi/dataDir/'
+zip_path = '/home/pi/Desktop/pi_system/raspi/zipfile/'
 
 def main():
 
@@ -34,7 +35,7 @@ def main():
         ret, frame = cap.read()
 
         # 1分おきに画像取得
-        time.sleep(60)
+        time.sleep(180)
 
         # 現在時刻の取得
         now = datetime.now()
@@ -42,19 +43,24 @@ def main():
         # "0915"のように，現在の日付を文字列で取得
         nowStr = now.strftime("%m%d")
 
-        # "0915140532" のように、現在時刻を文字列で取得(画像の名前用)
-        writeStr = now.strftime('%m%d%H%M%S')
+        # "20180915140532" のように、現在時刻を文字列で取得(画像の名前用)
+        writeStr = now.strftime('%y%m%d%H%M%S')
 
         # 保存先ディレクトリのPATH
         saveDir = os.path.join(data_path, nowStr)
-            
+
         # 保存用ファイル名
-        #saveImg = saveDir + writeStr
+        saveImg = saveDir + writeStr
+
+        #saveImg = data_path + '/hatake.png'
 
         # ./dataDir/0915 ディレクトリに取得画像を保存
-        cv2.imwrite(data_path +  ".png", frame)
+        cv2.imwrite(saveImg, frame)
 
-        print(writeStr + ".png")
+        print('scp ' + saveImg + ' ubuntu@18.179.34.84:~/Desktop/' + writeStr + ".png")
+
+        #scpする
+        os.system('scp ' + saveImg + ' ubuntu@18.179.34.84:~/Desktop/' + writeStr + '.png')
 
     # キャプチャをリリースして、ウィンドウをすべて閉じる
     cap.release()

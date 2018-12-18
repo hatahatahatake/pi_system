@@ -16,6 +16,7 @@ from pathlib import Path
 #data_path = '/home/pi/Desktop/pi_system/raspi/dataDir/'
 data_path = '/Users/yuka/Desktop/resarch/pi_system/raspi/dataDir/'
 output_path = '/Users/yuka/Desktop/resarch/pi_system/raspi/diffDir/'
+jpgDiff_path = '/Users/yuka/Desktop/resarch/pi_system/raspi/jpgDiff/'
 
 if __name__ == '__main__':
 
@@ -24,44 +25,36 @@ if __name__ == '__main__':
         print("-- start --")
 
         # 画像があるディレクトリ一覧
-        datalist = os.listdir(data_path)
+        datalist1 = os.listdir(data_path)
+        datalist2 = datalist1
 
-        # img を格納
-        img = []
-        all_img = []
+        for i, dataDate in enumerate(datalist1):
 
-        for dataDate in datalist:
-        #    if dataDate.endswith(".png"):
+            print("-- create diffdata --")
 
-            print("-- search pngdata --")
+            filename, ext = os.path.splitext(dataDate)
 
-            #
-            print(dataDate)
+            dataDate = os.path.join(data_path, dataDate)
+            dataDate2 = os.path.join(data_path, datalist2[i+1])
+            dataDate1 = cv2.imread(dataDate)
+            dataDate2 = cv2.imread(dataDate2)
 
-            pathStr = str(dataDate)
-            img = np.array(dataDate)
-            img = cv2.imread(pathStr)
-            print(img)
+            # 画像間差分を計算
+            dataDate3 = dataDate2 - dataDate1
 
-            all_img.append(img)
-            print(all_img)
+            # 差分画像を表示
+            cv2.imshow('diff Image', dataDate3)
 
-            for dataDate in range(len(datalist)):
+            # 確認用 print
+            #print("diff ok")
+            #print(dataDate3)
 
+            # png で保存
+            saveDiff = output_path + filename
+            cv2.imwrite(saveDiff + ".png", dataDate3)
+            print(filename + ".png")
 
-                print("-- create diff image --")
-
-                #img = img[0]
-                img = cv2.imread(pathStr)
-
-                cv2.imshow(diff_img, frame)
-
-
-                cv2.imwrite(output_path + dataDate, frame)
-
-                print(diff_img)
-
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-
-# return all_img
+            # jpg で保存
+            saveDiff2 = jpgDiff_path + filename
+            save2 = cv2.imwrite(saveDiff2 + ".jpg", dataDate3)
+            print(filename + ".jpg")
