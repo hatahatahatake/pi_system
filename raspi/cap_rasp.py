@@ -23,7 +23,6 @@ cap.set(4, 600)  # Heigh
 cap.set(5, 15)   # FPS
 
 data_path = '/home/pi/Desktop/pi_system/raspi/dataDir/'
-zip_path = '/home/pi/Desktop/pi_system/raspi/zipfile/'
 
 def main():
 
@@ -46,22 +45,16 @@ def main():
         # "0915140532" のように、現在時刻を文字列で取得(画像の名前用)
         writeStr = now.strftime('%m%d%H%M%S')
 
-        # 画像があるディレクトリ一覧
-        datalist = os.listdir(data_path)
+        # 保存先ディレクトリのPATH
+        saveDir = os.path.join(data_path, nowStr)
+            
+        # 保存用ファイル名
+        #saveImg = saveDir + writeStr
 
-        for dataDate in datalist:
-            if nowStr == dataDate:
+        # ./dataDir/0915 ディレクトリに取得画像を保存
+        cv2.imwrite(data_path +  ".png", frame)
 
-                # 保存先ディレクトリのPATH
-                saveDir = os.path.join(data_path, nowStr)
-
-                # 保存用ファイル名
-                saveImg = saveDir + '/' + writeStr
-
-                # ./dataDir/0915 ディレクトリに取得画像を保存
-                cv2.imwrite(saveImg +  ".png", frame)
-
-                print(writeStr + ".png")
+        print(writeStr + ".png")
 
     # キャプチャをリリースして、ウィンドウをすべて閉じる
     cap.release()
