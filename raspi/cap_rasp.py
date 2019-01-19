@@ -22,8 +22,12 @@ cap.set(4, 800)  # Width
 cap.set(4, 600)  # Heigh
 cap.set(5, 15)   # FPS
 
-data_path = '/home/pi/Desktop/pi_system/raspi/dataDir/'
-zip_path = '/home/pi/Desktop/pi_system/raspi/zipfile/'
+#data_path = '/home/pi/Desktop/pi_system/raspi/dataDir/'
+#jpg_path = '/home/pi/Desktop/pi_system/raspi/jpgDir/'
+
+data_path = '/Users/yuka/Desktop/resarch/pi_system/raspi/dataDir/'
+jpg_path = '/Users/yuka/Desktop/resarch/pi_system/raspi/jpgDir/'
+pass2 = '/Users/yuka/Desktop/resarch/pi_system/raspi/kutiot1.pem'
 
 def main():
 
@@ -35,32 +39,25 @@ def main():
         ret, frame = cap.read()
 
         # 1分おきに画像取得
-        time.sleep(180)
+        time.sleep(5)
 
         # 現在時刻の取得
         now = datetime.now()
 
-        # "0915"のように，現在の日付を文字列で取得
-        nowStr = now.strftime("%m%d")
-
         # "20180915140532" のように、現在時刻を文字列で取得(画像の名前用)
         writeStr = now.strftime('%y%m%d%H%M%S')
 
-        # 保存先ディレクトリのPATH
-        saveDir = os.path.join(data_path, nowStr)
+        # png ディレクトリに取得画像を保存
+        saveImg = data_path + writeStr
+        png_save = cv2.imwrite(saveImg + ".png", frame)
+        print('scp ' + png_save + ' ubuntu@18.179.34.84:/home/ubuntu/Desktop/hatapic/' + writeStr + ".png")
+        os.system('scp ' +  "-i " + pass2 + png_save+ ' ubuntu@18.179.34.84:/home/ubuntu/Desktop/hatapic/' + writeStr + ".png")
 
-        # 保存用ファイル名
-        saveImg = saveDir + writeStr
-
-        #saveImg = data_path + '/hatake.png'
-
-        # ./dataDir/0915 ディレクトリに取得画像を保存
-        cv2.imwrite(saveImg, frame)
-
-        print('scp ' + saveImg + ' ubuntu@18.179.34.84:~/Desktop/' + writeStr + ".png")
-
-        #scpする
-        os.system('scp ' + saveImg + ' ubuntu@18.179.34.84:~/Desktop/' + writeStr + '.png')
+        # jpg ディレクトリに取得画像を保存
+        saveImg2 = jpg_path + writeStr
+        jpg_save = cv2.imwrite(saveImg2 + ".jpg", frame)
+        print('scp ' + jpg_save + ' ubuntu@18.179.34.84:/home/ubuntu/Desktop/hatapic/' + writeStr + ".jpg")
+        os.system('scp ' + "-i " +  pass2 + jpg_save + ' ubuntu@18.179.34.84:/home/ubuntu/Desktop/hatapic/' + writeStr + ".jpg")
 
     # キャプチャをリリースして、ウィンドウをすべて閉じる
     cap.release()
