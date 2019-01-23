@@ -6,19 +6,17 @@
 import cv2
 import os
 import sys
-import glob
 import numpy as np
-import matplotlib.pyplot as plt
 
-from PIL import Image
-from pathlib import Path
+from threading import Timer
+from time import sleep
 
-data_path = '/Users/yuka/Desktop/resarch/pi_system/raspi/dataDir/'
-output_path = '/Users/yuka/Desktop/resarch/pi_system/raspi/diffDir/'
-jpgDiff_path = '/Users/yuka/Desktop/resarch/pi_system/raspi/jpgDiff/'
+data_path = '/home/pi/Desktop/pi_system/raspi/dataDir/'
+output_path = '/home/pi/Desktop/pi_system/raspi/diffDir/'
+jpgDiff_path = '/home/pi/Desktop/pi_system/raspi/jpgDiff/'
 
 # データリストファイル
-list_path = '/Users/yuka/Desktop/resarch/pi_system/raspi/img_data.txt'
+list_path = '/home/pi/Desktop/pi_system/raspi/img_data.txt'
 
 if __name__ == '__main__':
 
@@ -26,13 +24,13 @@ if __name__ == '__main__':
 
         print("-- start --")
 
+        # 1分おきに画像取得
+        time.sleep(300)
+
+
         # 画像があるディレクトリ一覧
-        datalist1 = os.listdir(data_path)
-        datalist1.sort()
-
-        datalist2 = datalist1
-        datalist2.sort()
-
+        datalist1 = sorted(os.listdir(data_path))
+        datalist2 = sorted(datalist1)
 
         for i, dataDate in enumerate(datalist1):
 
@@ -55,11 +53,6 @@ if __name__ == '__main__':
             count += i
             print(count)
 
-            #print(dataDate3)
-
-            # 絶対値の計算
-            #dataDate3 = abs(dataDate3)
-
             # ピクセルにマイナス値があれば0とする
             for q in range(dataDate3.shape[0]):
                 for r in range(dataDate3.shape[1]):
@@ -78,16 +71,11 @@ if __name__ == '__main__':
             # png で保存
             saveDiff = output_path + "diff_" + filename
             saveImg = cv2.imwrite(saveDiff + ".png", dataDate3)
-            saveImg.sort()
+            os.system('scp ' + saveImg + ' ubuntu@18.179.32.84:/home/ubuntu/Desktop/hatapic/dataDir/' + writeStr + ".png")
             print("diff_" + filename + ".png")
-
-            # png sub
-            #subDiff = output_path + "diff_" + filename
-            #cv2.imwrite(saveDiff + ".png", dataDate4)
-            #print("subDiff_" + filename + ".png")
 
             # jpg で保存
             saveDiff2 = jpgDiff_path + "diff_" + filename
             saveImg2 = cv2.imwrite(saveDiff2 + ".jpg", dataDate3)
-            saveImg2.sort()
+            os.system('scp ' + saveImg2 + ' ubuntu@18.179.32.84:/home/ubuntu/Desktop/hatapic/jpgDir/' + writeStr + ".jpg")
             print("diff_"  + filename + ".jpg")

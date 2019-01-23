@@ -28,8 +28,6 @@ jpg_path = '/home/pi/Desktop/pi_system/raspi/jpgDir/'
 #ata_path = '/Users/yuka/Desktop/resarch/pi_system/raspi/dataDir/'
 #jpg_path = '/Users/yuka/Desktop/resarch/pi_system/raspi/jpgDir/'
 
-#pass2 = '/Users/yuka/Desktop/resarch/pi_system/raspi/kutiot1.pem'
-
 def main():
 
     print("-- start --")
@@ -40,7 +38,7 @@ def main():
         ret, frame = cap.read()
 
         # 1分おきに画像取得
-        time.sleep(180)
+        time.sleep(60)
 
         # 現在時刻の取得
         now = datetime.now()
@@ -51,14 +49,14 @@ def main():
         # png ディレクトリに取得画像を保存
         saveImg = data_path + writeStr
         png_save = cv2.imwrite(saveImg + ".png", frame)
-        print('scp ' + png_save + ' ubuntu@18.179.34.84:/home/ubuntu/Desktop/hatapic/' + writeStr + '.png')
-        os.system('scp ' +  "-i " + png_save + ' ubuntu@18.179.34.84:/home/ubuntu/Desktop/hatapic/' + writeStr + ".png")
+        os.system('scp ' + saveImg + ' ubuntu@18.179.32.84:/home/ubuntu/Desktop/hatapic/dataDir/' + writeStr + ".png")
+        os.remove(png_save)
 
         # jpg ディレクトリに取得画像を保存
         saveImg2 = jpg_path + writeStr
         jpg_save = cv2.imwrite(saveImg2 + ".jpg", frame)
-        print('scp ' + jpg_save + ' ubuntu@18.179.34.84:/home/ubuntu/Desktop/hatapic/' + writeStr + '.jpg')
-        os.system('scp ' + "-i " + jpg_save + ' ubuntu@18.179.34.84:/home/ubuntu/Desktop/hatapic/' + writeStr + ".jpg")
+        os.system('scp ' + saveImg2 + ' ubuntu@18.179.32.84:/home/ubuntu/Desktop/hatapic/jpgDir/' + writeStr + ".jpg")
+        os.remove(jpg_save)
 
     # キャプチャをリリースして、ウィンドウをすべて閉じる
     cap.release()
