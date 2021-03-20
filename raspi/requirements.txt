@@ -17,7 +17,7 @@ h5py==2.7.0
 idna==2.2
 itsdangerous==0.24
 jedi==0.10.2
-Jinja2==2.8
+Jinja2==2.11.3
 Keras==2.2.0
 Keras-Applications==1.0.2
 Keras-Preprocessing==1.0.1
